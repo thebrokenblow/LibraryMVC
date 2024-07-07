@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml;
 
 namespace LibraryMVC.Models;
 
-public class Book
+public class BookView
 {
     public required int Id { get; set; }
     public required string Author { get; set; }
@@ -11,5 +12,6 @@ public class Book
     public required string Description { get; set; }
 
     [Column("table_contents")]
-    public required string TableContents { get; set; }
+    public required List<string> TableContents { get; set; }
+    public required XmlDocument TableContentsXML { get; set; }
 }

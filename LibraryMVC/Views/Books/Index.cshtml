@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LibraryMVC.Models.Book>
+﻿@model IEnumerable<LibraryMVC.Models.BookView>
 @{
     ViewData["Title"] = "Главная";
 }
@@ -45,7 +45,22 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TableContents)
+                    @foreach (var p in item.TableContents)
+                    {
+                     <p>@p</p>   
+                    }
+                    <form asp-action="EditTableContents">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="@item.Id" name="id"/>
+                        <div class="form-group">
+                            <label asp-for="@item.TableContentsXML.OuterXml" class="control-label">Оглавление</label>
+                            <input asp-for="@item.TableContentsXML.OuterXml" name="tableContents" class="form-control" />
+                            <span asp-validation-for="@item.TableContentsXML.OuterXml class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Сохранить" class="btn btn-primary" />
+                        </div>
+                    </form>
             </td>
             <td>
                     <div class="d-flex flex-column bd-highlight mb-3">

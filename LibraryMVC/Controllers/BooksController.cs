@@ -3,15 +3,53 @@ using Microsoft.EntityFrameworkCore;
 using LibraryMVC.Data;
 using LibraryMVC.Models;
 using Microsoft.Data.SqlClient;
+using System.Xml;
 
 namespace LibraryMVC.Controllers;
 
 public class BooksController(LibraryContext context) : Controller
 {
+    [HttpPost]
+    public IActionResult EditTableContents(int id, string tableContents)
+    {
+        context.Database.ExecuteSqlRaw("UpdateTableContents @id, @table_contents",
+                new SqlParameter("@id", id),
+                new SqlParameter("@table_contents", tableContents));
+
+        return RedirectToAction(nameof(Index));
+    }
+
     // GET: Books
     public async Task<IActionResult> Index()
     {
-        return View(await context.Books.FromSqlRaw("SelectedBooks").ToListAsync());
+        var listBookView = new List<BookView>();
+        foreach (var item in await context.Books.FromSqlRaw("SelectedBooks").ToListAsync())
+        {
+            var xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(item.TableContents);
+            XmlElement? xRoot = xmlDocument.DocumentElement;
+            var tableContents = new List<string>();
+            if (xRoot != null)
+            {
+                foreach (XmlElement xnode in xRoot)
+                {
+                    tableContents.Add($" - {xnode.InnerXml}");
+                }
+            }
+
+            listBookView.Add(new BookView
+            { 
+                Id = item.Id,
+                Author = item.Author,
+                Title = item.Title,
+                Description = item.Description,
+                TableContents = tableContents,
+                Year = item.Year,
+                TableContentsXML = xmlDocument,
+            });
+        }
+
+        return View(listBookView);
     }
 
     // GET: Books/Details/5
@@ -60,6 +98,7 @@ public class BooksController(LibraryContext context) : Controller
         return View(book);
     }
 
+
     // GET: Books/Edit/5
     public async Task<IActionResult> Edit(int? id)
     {
@@ -78,6 +117,7 @@ public class BooksController(LibraryContext context) : Controller
 
         return NotFound();
     }
+
 
     // POST: Books/Edit/5
     // To protect from overposting attacks, enable the specific properties you want to bind to.
