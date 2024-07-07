@@ -9,6 +9,7 @@ namespace LibraryMVC.Controllers;
 
 public class BooksController(LibraryContext context) : Controller
 {
+    // POST: Books/Create
     [HttpPost]
     public IActionResult EditTableContents(int id, string tableContents)
     {
@@ -29,11 +30,12 @@ public class BooksController(LibraryContext context) : Controller
             xmlDocument.LoadXml(item.TableContents);
             XmlElement? xRoot = xmlDocument.DocumentElement;
             var tableContents = new List<string>();
+            //Выборка данных из xml
             if (xRoot != null)
             {
                 foreach (XmlElement xnode in xRoot)
                 {
-                    tableContents.Add($" - {xnode.InnerXml}");
+                    tableContents.Add(xnode.InnerXml);
                 }
             }
 
