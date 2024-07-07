@@ -1,0 +1,48 @@
+﻿@model LibraryMVC.Models.Book
+
+@{
+    ViewData["Title"] = "Детали";
+}
+
+<h1>Детали</h1>
+
+<div>
+    <h4>Книги</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Автор
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+        <dt class = "col-sm-2">
+            Название
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            Год
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+        <dt class = "col-sm-2">
+            Описание
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            Оглавление
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TableContents)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Редактировать</a> |
+    <a asp-action="Index">Назад к списку</a>
+</div>

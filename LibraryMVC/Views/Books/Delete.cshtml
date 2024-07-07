@@ -1,0 +1,50 @@
+﻿@model LibraryMVC.Models.Book
+
+@{
+    ViewData["Title"] = "Удаление";
+}
+
+<h1>Удаление</h1>
+
+<h3>Вы уверены, что хотите удалить эту книгу?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Автор
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+        <dt class="col-sm-2">
+            Название
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            Год
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+        <dt class = "col-sm-2">
+            Описание
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            Оглавление
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TableContents)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Удалить" class="btn btn-danger" /> |
+        <a asp-action="Index">Назад к списку</a>
+    </form>
+</div>
